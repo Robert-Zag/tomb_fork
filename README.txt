@@ -1,6 +1,9 @@
 Tomb deployer wallet history, first transactions of the tomb finance deployer wallet
 These transactions don't seem to include erc 20s, need to fetch aggregate transactions
+- found out that erc20 transactions are just a subset of all transactions
 https://ftmscan.com/txs?a=0x12164b332d01cc694e752d7039ee21d56fe7705d
+all the other contracts:
+https://docs.tomb.finance/protocol/contracts-and-wallets
 
 1. Received 1000FTM
 2. Deployed unknown "Set Completed" contract
