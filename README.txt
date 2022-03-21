@@ -4,7 +4,10 @@ These transactions don't seem to include erc 20s, need to fetch aggregate transa
 https://ftmscan.com/txs?a=0x12164b332d01cc694e752d7039ee21d56fe7705d
 all the other contracts:
 https://docs.tomb.finance/protocol/contracts-and-wallets
-
+the dev and the dao wallet seem to be different when going directly through ftmscan
+and have a longer history than the wallets given by the tomb docs
+https://ftmscan.com/address/0x32439f5a7dc35590e83aac0a80762de27ab76046
+https://ftmscan.com/address/0x0fa5a3b6f8e26a7c2c67bd205ffcfa9f89b0e8d1
 1. Received 1000FTM
 2. Deployed unknown "Set Completed" contract
 3. Called Set Completed
