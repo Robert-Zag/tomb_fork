@@ -62,6 +62,20 @@ called_distribute_rewards_tshare = True
 has_approved_tomb = True
 has_approved_tshare = True
 
+WETH_AMOUNT = 0.2
+
+
+def get_weth():
+    acct = accounts.add(
+        config["wallets"]["from_key"]
+    )  # add your keystore ID as an argument to this call
+    weth = interface.WethInterface(
+        config["networks"][network.show_active()]["weth"])
+    tx = weth.deposit(
+        {"from": acct, "value": Web3.toWei(WETH_AMOUNT, "ether")})
+    print(f"Received {WETH_AMOUNT} WETH")
+    return tx
+
 
 def get_account(index=None):
     if network.show_active() in (
@@ -169,17 +183,25 @@ def deploy_contracts():
         print("Omitting function call as it has been done previously")
 
     amount_token_desired = 10000000000000000
-    # print(f'Amount Token Desired {Web3.fromWei(amount_token_desired, "ether")}')
+    print(
+        f'Amount Token Desired {Web3.fromWei(amount_token_desired, "ether")}')
     amount_token_min = 10000000000000000
-    # print(f'Amount Token Min {Web3.fromWei(amount_token_min, "ether")}')
+    print(f'Amount Token Min {Web3.fromWei(amount_token_min, "ether")}')
     amount_eth_min = 100000000000000000
-    # print(f'Amount Eth Min {Web3.fromWei(amount_eth_min, "ether")}')
+    print(f'Amount Eth Min {Web3.fromWei(amount_eth_min, "ether")}')
     # Amount Token Desired 0.01
     # Amount Token Min 0.01
     # Amount Eth Min 0.1
 
+    print(
+        f"The balance of the deployer wallet is {Web3.fromWei(account.balance(), 'ether')}")
+
+    get_weth()
+
     # deadline has been 20 minutes into the future
     deadline = int(datetime.timestamp(datetime.now() + timedelta(minutes=20)))
+
+    # adding liquidity to tomb
     tx = uniswap_router.addLiquidityETH(
         tomb_contract.address,
         amount_token_desired,
