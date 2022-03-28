@@ -65,6 +65,9 @@ has_approved_tshare = True
 has_approved_weth = True
 has_approved_weth_2 = True
 
+added_tomb_liquidity = True
+added_tshare_liquidity = True
+
 WETH_AMOUNT = 0.2
 MINIMUM_WETH_BALANCE = Web3.toWei(0.2, "ether")
 
@@ -237,16 +240,21 @@ def deploy_contracts():
     deadline = int(datetime.timestamp(datetime.now() + timedelta(minutes=20)))
 
     # adding liquidity to tomb
-    tx = uniswap_router.addLiquidityETH(
-        tomb_contract.address,
-        amount_token_desired,
-        amount_token_min,
-        amount_eth_min,
-        account,
-        deadline,
-        {"from": account},
-    )
-    tx.wait(1)
+    if not added_tomb_liquidity or not network.show_active() == "rinkeby":
+        # THIS FUNCTION CALL HAS BEEN PAYABLE WITH 0.1 FTM
+        tx = uniswap_router.addLiquidityETH(
+            tomb_contract.address,
+            amount_token_desired,
+            amount_token_min,
+            amount_eth_min,
+            account,
+            deadline,
+            {"from": account, "value": Web3.toWei(0.1, 'ether')},
+        )
+        tx.wait(1)
+        print("Successfully added liquidity to Tomb pool")
+    else:
+        print("Omitting adding liquidity to Tomb token pool")
 
     # adding TSHARE token liquidity
     # for non address contracts using exact arguments
@@ -266,17 +274,20 @@ def deploy_contracts():
     amount_token_min = 10000000000000000
     amount_eth_min = 200000000000000000
 
-    tx = uniswap_router.addLiquidityETH(
-        tshare_contract.address,
-        amount_token_desired,
-        amount_token_min,
-        amount_eth_min,
-        account,
-        deadline,
-        {"from": account},
-    )
-    tx.wait(1)
-    print("Successfully added liquidity to Tshare pool")
+    if not added_tshare_liquidity or not network.show_active() == "rinkeby":
+        tx = uniswap_router.addLiquidityETH(
+            tshare_contract.address,
+            amount_token_desired,
+            amount_token_min,
+            amount_eth_min,
+            account,
+            deadline,
+            {"from": account, "value": Web3.toWei(0.1, 'ether')},
+        )
+        tx.wait(1)
+        print("Successfully added liquidity to Tshare pool")
+    else:
+        print("Omitting adding liquidity to Tshare token pool")
 
 
 def main():
