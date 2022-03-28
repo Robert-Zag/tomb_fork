@@ -30,12 +30,12 @@ https://ftmscan.com/address/0x0fa5a3b6f8e26a7c2c67bd205ffcfa9f89b0e8d1
 15. Called Distribute Reward on TShare
     args: (farming incentive fund)
 16. Called Set Completed
-17. Approve wFTM
-18. Approve TOMB
-19. Approve wFTM
-20. Approve TOMB
+17. Approve wFTM 99999000000000000000000
+18. Approve TOMB 99999000000000000000000
+19. Approve wFTM 99999000000000000000000
+20. Approve TOMB 99999000000000000000000
 21. "Add Liquidity ETH" to SpookySwap Router TOMB - this is the deployment transaction for the LP pairs
-22. Approve TSHARE
+22. Approve TSHARE 115792089237316195423570985008687907853269984665640564039457584007913129639935
 23. "Add Liquidity ETH" to SpookySwap Router TSHARE
 24.
 .
