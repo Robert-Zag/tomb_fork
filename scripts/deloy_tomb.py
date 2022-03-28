@@ -62,7 +62,11 @@ called_distribute_rewards_tshare = True
 has_approved_tomb = True
 has_approved_tshare = True
 
+has_approved_weth = True
+has_approved_weth_2 = True
+
 WETH_AMOUNT = 0.2
+MINIMUM_WETH_BALANCE = Web3.toWei(0.2, "ether")
 
 
 def get_weth():
@@ -146,7 +150,7 @@ def deploy_contracts():
         tx.wait(1)
         print("### - Called distribute rewards on Tomb\n")
     else:
-        print("Omitting function call as it has been done previously")
+        print("Omitting Tomb distribute rewards as it has been done previously")
 
     tshare_reward_pool_contract = get_contract(
         "tshare_reward_pool", tshare_contract.address, start_time, {
@@ -161,7 +165,7 @@ def deploy_contracts():
         tx.wait(1)
         print("### - Called distribute rewards on TShare\n")
     else:
-        print("Omitting function call as it has been done previously")
+        print("Omitting TShare distribute rewards as it has been done previously")
 
     uniswap_router_address = config["networks"][network.show_active(
     )]["uniswap_router"]
@@ -180,7 +184,7 @@ def deploy_contracts():
         tx.wait(1)
         print("Succesfully approved Tomb to uniswap router---\n")
     else:
-        print("Omitting function call as it has been done previously")
+        print("Omitting Tomb token approval as it has been done previously")
 
     amount_token_desired = 10000000000000000
     print(
@@ -196,7 +200,38 @@ def deploy_contracts():
     print(
         f"The balance of the deployer wallet is {Web3.fromWei(account.balance(), 'ether')}")
 
-    get_weth()
+    # if WETH balance is less than 0.2, will get 0.2 weth
+    weth = interface.WethInterface(
+        config["networks"][network.show_active()]["weth"])
+    weth_balance = weth.balanceOf(account.address)
+    print(
+        f"Current wETH balance {Web3.fromWei(weth_balance, 'ether')}wETH"
+    )
+    if weth_balance < MINIMUM_WETH_BALANCE:
+        print("Getting wETH")
+        get_weth()
+        print(
+            f"Now the contract has {Web3.fromWei(weth.balanceOf(account.address), 'ether')}wETH"
+        )
+
+    if not has_approved_weth or not network.show_active() == "rinkeby":
+        amount = 99999000000000000000000
+        tx = tomb_contract.approve(
+            uniswap_router.address, amount, {"from": account})
+        tx.wait(1)
+        print("Succesfully approved wETH to uniswap router---\n")
+    else:
+        print("Omitting wETH token approval as it has been done previously")
+
+    if not has_approved_weth_2 or not network.show_active() == "rinkeby":
+        amount = 99999000000000000000000
+        print(f'Approval amount is {Web3.fromWei(amount, "ether")}')
+        tx = tomb_contract.approve(
+            uniswap_router.address, amount, {"from": account})
+        tx.wait(1)
+        print("Succesfully approved wETH to uniswap router---\n")
+    else:
+        print("Omitting wETH token approval as it has been done previously")
 
     # deadline has been 20 minutes into the future
     deadline = int(datetime.timestamp(datetime.now() + timedelta(minutes=20)))
@@ -225,7 +260,7 @@ def deploy_contracts():
         tx.wait(1)
         print("Succesfully approved TShare---\n")
     else:
-        print("Omitting function call as it has been done previously")
+        print("Omitting TShare approval as it has been done previously")
 
     amount_token_desired = 10000000000000000
     amount_token_min = 10000000000000000
