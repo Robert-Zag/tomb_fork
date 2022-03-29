@@ -9,7 +9,7 @@ and have a longer history than the wallets given by the tomb docs
 https://ftmscan.com/address/0x32439f5a7dc35590e83aac0a80762de27ab76046
 https://ftmscan.com/address/0x0fa5a3b6f8e26a7c2c67bd205ffcfa9f89b0e8d1
 1. Received 1000FTM
-2. Deployed unknown "Set Completed" contract
+2. Deployed unknown "Set Completed" contract (Migrations.sol)
 3. Called Set Completed
 4. Deployed Tomb.sol
 5. Deployed TShare.sol
@@ -30,19 +30,24 @@ https://ftmscan.com/address/0x0fa5a3b6f8e26a7c2c67bd205ffcfa9f89b0e8d1
 15. Called Distribute Reward on TShare
     args: (farming incentive fund)
 16. Called Set Completed
-17. Approve wFTM 99999000000000000000000
-18. Approve TOMB 99999000000000000000000
-19. Approve wFTM 99999000000000000000000
-20. Approve TOMB 99999000000000000000000
+17. Approve wFTM 99999000000000000000000 to swap router
+18. Approve TOMB 99999000000000000000000 to swap router
+19. Approve wFTM 99999000000000000000000 to swap router
+20. Approve TOMB 99999000000000000000000 to swap router
 21. "Add Liquidity ETH" to SpookySwap Router TOMB - this is the deployment transaction for the LP pairs
 22. Approve TSHARE 115792089237316195423570985008687907853269984665640564039457584007913129639935
 23. "Add Liquidity ETH" to SpookySwap Router TSHARE
-24.
-.
-27. Called Add on Genesis Reward Pool x4
+Called Add on Genesis Reward Pool x4
+24. allocPoint: 6000, token: wFTM.address, withUpdate: true, lastRewardTime: 2 days 15 min into the future
+25. allocPoint: 2500, token: BooToken, withUpdate: true, lastRewardTime: (The same timestamp as previous)
+26. allocPoint: 1500, token: ShibaToken, withUpdate: true, lastRewardTime: (same...)
+27. allocPoint: 1000, token: ZooToken, withUpdate: true, lastRewardTime: (same...)
 28. Called Add on --OLD-- Tomb Reward Pool
+    allocPoint: 140000, token: TOMBwFTM-LP, withUpdate: true, lastRewardTIme: 2.5 days into the future
 29. Called Add on TSHARE Rewards Pool
+    allocPoint: 35500, token: TOMBwFTM-LP, withUpdate: true, lastRewardTime: about a week into the future
 30. Called Add on TSHARE Rewards Pool 2nd time
+    allocPoint: 24000, token: TSHAREwFTM-LP, withUpdate: true, lastRewardTime: same as the one before
 31. Deployed Oracle.Sol
 32. Called Set Tomb Oracle on Tomb Token
 33. Called Set Completed
