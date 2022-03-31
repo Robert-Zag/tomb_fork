@@ -99,7 +99,7 @@ def get_contract(contract_str, *args):
     contract = string_to_contract[contract_str]
     if len(contract) >= 1:
         print(
-            f"{contract_str} has been deployed previously, returning old instance at: {contract[-1].address}")
+            f"-- {contract_str} has been deployed previously at: {contract[-1].address}")
         return contract[-1]
     return contract.deploy(*args)
 
